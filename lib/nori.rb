@@ -4,6 +4,17 @@ require "nori/xml_utility_node"
 
 class Nori
 
+  DEFAULT_TYPE_CONVERTER = TypeConverter.new(
+    'int|integer' => TypeConverter::ToInteger,
+    'boolean' => TypeConverter::ToBoolean,
+    'date[Tt]ime' => TypeConverter::ToTime,
+    'date' => TypeConverter::ToDate,
+    'decimal' => TypeConverter::ToDecimal,
+    'double|float' => TypeConverter::ToFloat,
+    'string' => TypeConverter::ToString,
+    'base64Binary' => TypeConverter::Base64ToBinary
+  )
+
   def self.hash_key(name, options = {})
     name = name.tr("-", "_") if options[:convert_dashes_to_underscores]
     name = name.split(":").last if options[:strip_namespaces]
@@ -23,6 +34,7 @@ class Nori
       :advanced_typecasting          => true,
       :convert_dashes_to_underscores => true,
       :scrub_xml                     => true,
+      :type_converter                => DEFAULT_TYPE_CONVERTER,
       :parser                        => :nokogiri
     }
 
@@ -92,7 +104,7 @@ class Nori
         end
       end
     else
-      string 
+      string
     end
   end
 

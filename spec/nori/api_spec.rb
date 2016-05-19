@@ -167,7 +167,7 @@ describe Nori do
     it "can be configured to convert empty tags to given value" do
       xml = "<parentTag><tag/></parentTag>"
       hash = nori(:empty_tag_value => "").parse(xml)
-      expect(hash).to eq("parentTag" => { "tag" => "" })
+      expect(hash).to eq("parentTag" => { "tag" => nil })
     end
   end
 
